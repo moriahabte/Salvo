@@ -14,15 +14,15 @@ public class Player {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long id;
-    private String mail;
+    private String user;
 
     @OneToMany(mappedBy="player", fetch=FetchType.EAGER)
     private Set<GamePlayer> gamePlayers;
 
     public Player() { }
 
-    public Player(String mail) {
-        this.mail = mail;
+    public Player(String user) {
+        this.user = user;
     }
 
     public void addGamePlayer(GamePlayer gamePlayer) {
@@ -39,15 +39,20 @@ public class Player {
         return id;
     }
 
-    public String getMail() {
-        return mail;
+    public String getUser() {
+        return user;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setUser(String user) {
+        this.user = user;
     }
 
     public void setGamePlayers(Set<GamePlayer> gamePlayers) {
         this.gamePlayers = gamePlayers;
     }
+
+    public Set<GamePlayer> getGamePlayers() {
+        return gamePlayers;
+    }
+
 }

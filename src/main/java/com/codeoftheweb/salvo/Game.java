@@ -22,7 +22,6 @@ public class Game {
 
 
 
-//    public Game(){}
 
     public Game() {
         this.creationDate  = new Date();
@@ -38,9 +37,7 @@ public class Game {
         return gamePlayers.stream().map(sub -> sub.getPlayer()).collect(toList());
     }
 
-    public long getGameId() {
-        return id;
-    }
+
 
     public Date getCreationDate() {
         return creationDate;
@@ -52,5 +49,13 @@ public class Game {
 
     public void setGamePlayers(Set<GamePlayer> gamePlayers) {
         this.gamePlayers = gamePlayers;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public Set<GamePlayer> getGamePlayers() {
+        return gamePlayers;
     }
 }
