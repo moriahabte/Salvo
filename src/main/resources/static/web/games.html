@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Salvo!</title>
+</head>
+<body>
+<p id="div1">hello</p>
+    
+    
+    
+    <div id="app">
+    
+    
+  
+    <ol id="list" >
+    <li v-for="game in allGames">
+        <p>Game:{{game.id}}</p>
+        <p>Created:{{new Date(game.creationDate).toLocaleString()}}</p>
+        
+        <p>Players: {{game.gamePlayers[0].player.email}} 
+        <span v-if="game.gamePlayers[1]">, {{game.gamePlayers[1].player.email}}</span></p>
+        
+    </li>
+
+    </ol>
+    
+    
+</div>
+
+    <!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script src="games.js"></script>
+
+</body>
+</html>
