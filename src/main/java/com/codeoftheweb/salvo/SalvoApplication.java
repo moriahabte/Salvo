@@ -52,19 +52,26 @@ public class SalvoApplication {
 
 
             GamePlayer game1jack = new GamePlayer(game1, jack);
+            GamePlayer game1Chloe = new GamePlayer(game1, chloe);
             gamePlayerRepository.save(game1jack);
-            gamePlayerRepository.save(new GamePlayer(game1, chloe));
-            gamePlayerRepository.save(new GamePlayer(game2, kim));
-            gamePlayerRepository.save(new GamePlayer(game2, david));
-            gamePlayerRepository.save(new GamePlayer(game3, michelle));
+            gamePlayerRepository.save(game1Chloe);
+
+//            gamePlayerRepository.save(new GamePlayer(game2, kim));
+//            gamePlayerRepository.save(new GamePlayer(game2, david));
+//            gamePlayerRepository.save(new GamePlayer(game3, michelle));
 
             List<String> location1 = Arrays.asList("H1","H2","H3");
+            List<String> location2 = Arrays.asList(" B1","B2","B3");
 
             Ship ship1 = new Ship("cruiser", location1, game1jack);
-//            Ship ship2 = new Ship("bawler", new ArrayList<>(Arrays.asList("b1", "b2", "b3")), game1jack);
+            Ship ship3 = new Ship("caller", location2, game1jack);
+            Ship ship2 = new Ship("bawler", location1, game1Chloe);
+            Ship ship4 = new Ship("bruiser", location2, game1Chloe);
 
             shipRepository.save(ship1);
-//            shipRepository.save(ship2);
+            shipRepository.save(ship2);
+            shipRepository.save(ship3);
+            shipRepository.save(ship4);
 
 //
 
