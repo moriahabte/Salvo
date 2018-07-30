@@ -4,7 +4,9 @@ var app = new Vue({
         message: 'Hello Vue!',
         id: location.search.split("=")[1],
         gameView: {},
-        shipLocation:""
+        shipLocation: [],
+        player1: 0,
+        player2: 0
     },
     created: function(){
         fetch("/api/game_view/" + this.id,  {
@@ -17,9 +19,34 @@ var app = new Vue({
                 console.log(myJson);
                 data = myJson;
                 app.gameView = data;
-                
-            document.getElementById(data.ships["0"].location["0"]).setAttribute("class", "red");
-//                shiplocation.setAttribute("class", "red");
+            
+            console.log(app.id);
+            
+            for(let i=0;i<2;i++){
+                if(data.game.gamePlayers[i].player.id == app.id){
+                    app.player1 = data.game.gamePlayers[i].player.email;
+                }else{
+                    app.player2 = data.game.gamePlayers[i].player.email;
+                }
+            }
+            
+
+            
+            console.log(data.ships["0"].type);
+            wang = data.ships;
+            shipLocations = [];
+            console.log(wang);
+            
+            for(let i=0;i<wang.length;i++){
+                shipLocations = data.ships[i].location;
+                console.log(shipLocations);
+                for(let j=0;j<shipLocations.length;j++){
+                     document.getElementById(data.ships[i].location[j]).setAttribute("class", "red");
+                }
+            }
+                  
+            
+            
             });
         
         

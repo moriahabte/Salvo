@@ -28,6 +28,7 @@ public class Ship {
         this.shipType = shipType;
         this.shipLocation = shipLocation;
         this.gamePlayer = gamePlayer;
+        this.id = getId();
     }
 
     public GamePlayer getGamePlayer() {

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
@@ -23,7 +24,7 @@ public class GamePlayer {
     private Game game;
 
     @OneToMany(mappedBy="gamePlayer", fetch=FetchType.EAGER)
-    Set<Ship> ships = new HashSet<>();
+    Set<Ship> ships = new LinkedHashSet<>();
 
     public Set<Ship> getShips() {
         return ships;
