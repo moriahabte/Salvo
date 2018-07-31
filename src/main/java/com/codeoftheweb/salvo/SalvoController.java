@@ -21,12 +21,37 @@ public class SalvoController {
     @RequestMapping("/game_view/{gamePlayerId}")
     public Map<String, Object> getGameView(@PathVariable Long gamePlayerId){
         Map<String, Object> gameView = new LinkedHashMap<String, Object>();
+
         GamePlayer gamePlayer = gamePlayerRepository.findOne(gamePlayerId);
+        GamePlayer otherPlayer;
+                ;
+
+        for(int i = 0; i < gamePlayer.getGame().getGamePlayers().length; ++i)
+        for(GamePlayer famePlayer: gamePlayer.getGame().getGamePlayers()){
+            if(  famePlayer.getId() != gamePlayer.getId()){
+                GamePlayer otherPlayer =  famePlayer;
+            }
+        }
+
         gameView.put("game",makeGameDTO(gamePlayer.getGame()));
+
         gameView.put("ships", gamePlayer.getShips()
                 .stream()
-                .map(ship -> makeShipDto(ship))
+                .map(ship -> makeShipDTO(ship))
                 .collect(Collectors.toList()));
+
+
+        gameView.put("salvoes", gamePlayer.getSalvoes()
+                .stream()
+                .map(salvo -> makeSalvoDTO(salvo))
+                .collect(Collectors.toList()));
+
+        gameView.put("salvoesOpponent", otherPlayer.getSalvoes()
+                        .stream()
+                        .map(salvo -> makeSalvoDTO(salvo))
+                        .collect(Collectors.toList()));
+
+
 
             return gameView;
     }
@@ -72,7 +97,7 @@ public class SalvoController {
        return dto;
     }
 
-    private Map<String, Object> makeShipDto (Ship ship) {
+    private Map<String, Object> makeShipDTO (Ship ship) {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("type", ship.getShipType());
         dto.put("location", ship.getShipLocation());
@@ -81,6 +106,15 @@ public class SalvoController {
         return dto;
 
 
+    }
+
+    private Map<String, Object> makeSalvoDTO(Salvo salvo){
+        Map<String, Object> dto = new LinkedHashMap<String, Object>();
+        dto.put("turn", salvo.getTurnNumber());
+        dto.put("player", salvo.getGamePlayer().getId());
+        dto.put("locations", salvo.getSalvoLocations());
+
+        return dto;
     }
 
 

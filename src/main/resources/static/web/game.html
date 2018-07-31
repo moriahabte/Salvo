@@ -9,29 +9,44 @@
 
 <body>
     <div id="app">
-       
-       
+
+
         {{ message }}
 
         <p>{{player1}} (you)</p>
         <p>vs</p>
         <p>{{player2}}</p>
-      
-        
-        
-        
+
+
+
+
 
         <!--<div id="grid"></div>-->
+        <p>Your field(ship grid)</p>
         <table id="salvoGrid">
             <tr>
-               <th></th>
+                <th></th>
                 <th v-for="n in 10" :id="n">{{n}}</th>
             </tr>
 
-       <tr v-for="n in 10">
-              <td :id="String.fromCharCode(64 + n )">{{String.fromCharCode(64 + n )}}</td>
-               <td v-for="x in 10" :id="String.fromCharCode(64 + n ) + x">{{String.fromCharCode(64 + n )}}{{x}}</td> 
-                </tr>
+            <tr v-for="n in 10">
+                <td :id="String.fromCharCode(64 + n )">{{String.fromCharCode(64 + n )}}</td>
+                <td v-for="x in 10" :id="String.fromCharCode(64 + n ) + x">{{String.fromCharCode(64 + n )}}{{x}}</td>
+            </tr>
+        </table>
+
+        <p>Opponents field(salvo grid)</p>
+<p>salvo turn: {{salvoTurn}}</p>
+        <table>
+            <tr>
+                <th></th>
+                <th v-for="n in 10" :id="'s'+n">{{n}}</th>
+            </tr>
+
+            <tr v-for="n in 10">
+                <td :id="'s'+String.fromCharCode(64 + n )">{{String.fromCharCode(64 + n )}}</td>
+                <td v-for="x in 10" :id="'s'+String.fromCharCode(64 + n ) + x">{{String.fromCharCode(64 + n )}}{{x}}</td>
+            </tr>
         </table>
 
     </div>

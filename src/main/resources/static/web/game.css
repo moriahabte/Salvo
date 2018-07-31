@@ -4,8 +4,11 @@ td, th{
     width: 20px;
 }
 
-.red{
-    background-color: red;
+.purple{
+    background-color: purple;
+}
+.green{
+    background-color: green;
 }
 
 #player1, #player2{

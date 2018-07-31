@@ -26,14 +26,24 @@ public class GamePlayer {
     @OneToMany(mappedBy="gamePlayer", fetch=FetchType.EAGER)
     Set<Ship> ships = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy="gamePlayer", fetch=FetchType.EAGER)
+        Set<Salvo> salvoes = new LinkedHashSet<>();
+
     public Set<Ship> getShips() {
         return ships;
     }
+
+    public Set<Salvo> getSalvoes() { return salvoes; }
 
     public void addShip(Ship ship) {
         ship.setGamePlayer(this);
         ships.add(ship);
     }
+
+//    public void addSalvo(Salvo salvo){
+//        salvo.setGamePlayer(this);
+//        salvoes.add(salvo);
+//    }
 
     public GamePlayer() {
     }
