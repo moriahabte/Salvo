@@ -21,8 +21,6 @@ public class Game {
     private Set<GamePlayer> gamePlayers;
 
 
-
-
     public Game() {
         this.creationDate  = new Date();
     }

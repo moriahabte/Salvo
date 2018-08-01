@@ -4,12 +4,19 @@ td, th{
     width: 20px;
 }
 
-.purple{
+.ship{
     background-color: purple;
 }
-.green{
+.opponentSalvo{
+    background-color: orange;
+}
+.salvo{
     background-color: green;
 }
+.youGotHit{
+    background-color: red;
+}
+
 
 #player1, #player2{
     background-color: green;

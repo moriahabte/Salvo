@@ -18,20 +18,26 @@ public class SalvoController {
     @Autowired
     private GamePlayerRepository gamePlayerRepository;
 
+    public GamePlayer getOtherPlayer(GamePlayer gamePlayer){
+        List<GamePlayer> gamePlayersList = new ArrayList<>();
+        Set<GamePlayer> gamePlayerSet = gamePlayer.getGame().getGamePlayers();
+        for (GamePlayer gp : gamePlayerSet) {
+            if (gp != gamePlayer) {
+                gamePlayersList.add(gp);
+            }
+        }
+        return gamePlayersList.get(0);
+    }
+
     @RequestMapping("/game_view/{gamePlayerId}")
     public Map<String, Object> getGameView(@PathVariable Long gamePlayerId){
         Map<String, Object> gameView = new LinkedHashMap<String, Object>();
 
         GamePlayer gamePlayer = gamePlayerRepository.findOne(gamePlayerId);
-        GamePlayer otherPlayer;
-                ;
+        GamePlayer otherPlayer = getOtherPlayer(gamePlayer);
 
-        for(int i = 0; i < gamePlayer.getGame().getGamePlayers().length; ++i)
-        for(GamePlayer famePlayer: gamePlayer.getGame().getGamePlayers()){
-            if(  famePlayer.getId() != gamePlayer.getId()){
-                GamePlayer otherPlayer =  famePlayer;
-            }
-        }
+
+
 
         gameView.put("game",makeGameDTO(gamePlayer.getGame()));
 
@@ -46,7 +52,7 @@ public class SalvoController {
                 .map(salvo -> makeSalvoDTO(salvo))
                 .collect(Collectors.toList()));
 
-        gameView.put("salvoesOpponent", otherPlayer.getSalvoes()
+        gameView.put("opponentSalvoes", otherPlayer.getSalvoes()
                         .stream()
                         .map(salvo -> makeSalvoDTO(salvo))
                         .collect(Collectors.toList()));

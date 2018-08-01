@@ -31,7 +31,7 @@
 
             <tr v-for="n in 10">
                 <td :id="String.fromCharCode(64 + n )">{{String.fromCharCode(64 + n )}}</td>
-                <td v-for="x in 10" :id="String.fromCharCode(64 + n ) + x">{{String.fromCharCode(64 + n )}}{{x}}</td>
+                <td v-for="x in 10" :id="String.fromCharCode(64 + n ) + x" class="empty">{{String.fromCharCode(64 + n )}}{{x}}</td>
             </tr>
         </table>
 

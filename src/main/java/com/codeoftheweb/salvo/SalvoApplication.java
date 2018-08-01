@@ -98,6 +98,11 @@ public class SalvoApplication {
             Salvo salvo2 = new Salvo(2,location2,game1jack);
             Salvo salvo3 = new Salvo(3,location3,game1jack);
             Salvo salvo4 = new Salvo(4,location4,game1jack);
+
+            Salvo salvo5 = new Salvo(1,location5,game1Chloe);
+            Salvo salvo6 = new Salvo(2,location6,game1Chloe);
+            Salvo salvo7 = new Salvo(3,location7,game1Chloe);
+            Salvo salvo8 = new Salvo(4,location8,game1Chloe);
 //            Salvo salvo2 = new Salvo(2,location6,game1Chloe);
 //            Salvo salvo3 = new Salvo(1,location7,game2kim);
 //            Salvo salvo4 = new Salvo(2,location8,game2david);
@@ -105,6 +110,11 @@ public class SalvoApplication {
             salvoRepository.save(salvo2);
             salvoRepository.save(salvo3);
             salvoRepository.save(salvo4);
+
+            salvoRepository.save(salvo5);
+            salvoRepository.save(salvo6);
+            salvoRepository.save(salvo7);
+            salvoRepository.save(salvo8);
 
 //
 
