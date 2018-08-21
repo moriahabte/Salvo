@@ -2,6 +2,7 @@ package com.codeoftheweb.salvo;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import static java.util.stream.Collectors.toList;
@@ -15,14 +16,23 @@ public class Player {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long id;
     private String user;
+    private String password;
 
     @OneToMany(mappedBy="player", fetch=FetchType.EAGER)
     private Set<GamePlayer> gamePlayers;
+
+    @OneToMany(mappedBy="player", fetch=FetchType.EAGER)
+    private Set<Score> scores;
 
     public Player() { }
 
     public Player(String user) {
         this.user = user;
+    }
+
+    public Player(String user, String password) {
+        this.user = user;
+        this.password = password;
     }
 
     public void addGamePlayer(GamePlayer gamePlayer) {
@@ -55,4 +65,22 @@ public class Player {
         return gamePlayers;
     }
 
+//    public Score getScore(Game game) {
+//            return scores
+//                    .stream()
+//                    .filter(s -> s.getGame() == game)
+//                    .findFirst().orElse(null);
+//    }
+
+    public Set<Score> getScores() {
+        return scores;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

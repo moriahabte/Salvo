@@ -1,37 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Salvo!</title>
+   <meta charset="UTF-8">
+   <title>Salvo!!</title>
+   <link rel="stylesheet" href="games.css">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-<p id="div1">hello</p>
-    
-    
-    
-    <div id="app">
-    
-    
-  
-    <ol id="list" >
-    <li v-for="game in allGames">
-        <p>Game:{{game.id}}</p>
-        <p>Created:{{new Date(game.creationDate).toLocaleString()}}</p>
-        
-<!--        <p>Players: {{game.gamePlayers[0].player.email}} </p>-->
-<!--        <span v-if="game.gamePlayers[1]">, {{game.gamePlayers[1].player.email}}</span></p>-->
-        
-    </li>
+<div id="app">
 
-    </ol>
-    
-    
+{{message}}
+
+<table class="table table-hover">
+                   <thead>
+                       <tr>
+                           <th >Name</th>
+     <th >Total </th>
+     <th >Won</th>
+     <th >Lost</th>
+     <th>Tied</th>                  
+                       </tr>
+                   </thead>
+                   <tbody>
+                       <tr v-for="player in main">
+                           <td>{{player.email}}</td>
+                           <td>{{player.totalScore}}</td>
+                           <td>{{player.wins}}</td>
+                           <td>{{player.losses}}</td>
+                           <td>{{player.ties}}</td>
+                       </tr>
+                   </tbody>
+               </table>
+
+
 </div>
-
-    <!-- development version, includes helpful console warnings -->
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
-    <script src="games.js"></script>
-
+<script src="games.js"></script>
 </body>
 </html>

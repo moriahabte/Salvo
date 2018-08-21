@@ -36,7 +36,7 @@ public class GamePlayer {
     public Set<Salvo> getSalvoes() { return salvoes; }
 
     public void addShip(Ship ship) {
-        ship.setGamePlayer(this);
+//        ship.setGamePlayer(this);
         ships.add(ship);
     }
 
@@ -80,6 +80,15 @@ public class GamePlayer {
 
     public long getId() {
         return id;
+    }
+
+    public Score getScore(){
+        return player.getScores()
+                .stream()
+                .filter(s -> s.getGame() == game)
+                .findFirst().orElse(null);
+
+//        return player.getScore(game);
     }
 }
 
