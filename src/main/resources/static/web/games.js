@@ -51,3 +51,33 @@ var app = new Vue({
        
    }
 })
+
+
+
+//fetch("/api/login", {
+//  credentials: 'include',
+//  method: 'POST',
+//  headers: {
+//    'Accept': 'application/json',
+//    'Content-Type': 'application/x-www-form-urlencoded'
+// },
+// body: 'user=jack@bauer.com&password=24',
+// })
+//.then(r=>console.log(r))
+//.catch(r=>console.log(r))
+//
+//
+//fetch("/api/logout", {
+//  credentials: 'include',
+//  method: 'POST',
+//  headers: {
+//    'Accept': 'application/json',
+//    'Content-Type': 'application/x-www-form-urlencoded'
+// },
+// 
+// })
+//.then(r=>console.log(r))
+//.catch(r=>console.log(r))
+
+
+

@@ -26,10 +26,6 @@ public class Player {
 
     public Player() { }
 
-    public Player(String user) {
-        this.user = user;
-    }
-
     public Player(String user, String password) {
         this.user = user;
         this.password = password;
@@ -64,13 +60,6 @@ public class Player {
     public Set<GamePlayer> getGamePlayers() {
         return gamePlayers;
     }
-
-//    public Score getScore(Game game) {
-//            return scores
-//                    .stream()
-//                    .filter(s -> s.getGame() == game)
-//                    .findFirst().orElse(null);
-//    }
 
     public Set<Score> getScores() {
         return scores;

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
@@ -41,7 +42,7 @@ public class SalvoController {
     }
 
 
-    @RequestMapping("/login")
+    @RequestMapping(path = "/login", method = RequestMethod.GET)
     public Player getAll(Authentication authentication) {
         return playerRepository.findByUser(authentication.getName());
     }
@@ -96,7 +97,27 @@ public class SalvoController {
 
 
     @RequestMapping("/games")
-    public List<Object> getAllGames() {
+    public Map<String, Object> allGames(Authentication authentication){
+        Map<String, Object> dto = new LinkedHashMap<String, Object>();
+        if(authentication != null){
+        dto.put("player",makeCurrentUserDTO(authentication));
+            dto.put("games", getAllGames());
+        } else {
+            dto.put("games", getAllGames());
+        }
+
+        return dto;
+
+    }
+    private Map<String, Object> makeCurrentUserDTO(Authentication authentication){
+        Map<String, Object> dto = new LinkedHashMap<String, Object>();
+        dto.put("id", getAll(authentication).getId());
+        dto.put("name", getAll(authentication).getUser());
+
+        return dto;
+    }
+
+    private List<Object> getAllGames() {
         return gameRepository
                 .findAll()
                 .stream()

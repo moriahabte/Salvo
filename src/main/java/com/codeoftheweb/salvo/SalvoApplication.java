@@ -26,7 +26,7 @@ import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @SpringBootApplication
-public class SalvoApplication extends SpringBootServletInitializer {
+public class SalvoApplication  {
 
 	public static void main(String[] args) {
 
@@ -174,15 +174,17 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-//                .antMatchers("/**").hasAuthority("USER")
                 .antMatchers("/**").permitAll()
-                .antMatchers("/rest").denyAll()
+//                .antMatchers("/api/login").permitAll()
+//                .antMatchers("/api/logout").permitAll()
+//                .antMatchers("/api/game_view/**").fullyAuthenticated()
+                .antMatchers("/rest/**").denyAll()
                 .and()
                 .formLogin();
 
         http.formLogin()
-                .usernameParameter("name")
-                .passwordParameter("pwd")
+                .usernameParameter("user")
+                .passwordParameter("password")
                 .loginPage("/api/login");
 
         http.logout().logoutUrl("/api/logout");
