@@ -52,7 +52,7 @@ var app = new Vue({
 
         },
         ShowShipLocations: function () {
-            console.log(data.ships["0"].type);
+            //            console.log(data.ships["0"].type);
             wang = data.ships;
             shipLocations = [];
             console.log(wang);
@@ -100,7 +100,30 @@ var app = new Vue({
                     }
                 }
             }
-        }
+        },
+        logOut: function () {
+            fetch("/api/logout", {
+                    credentials: 'include',
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+
+                })
+                .then(r => {
+                    if (r.status == 200) {
+                        this.alertDiv = false;
+                        this.logged = false;
+                    } else {
+                        this.alertDiv = false;
+                        this.logged = true;
+                    }
+                    console.log(r)
+                })
+                .catch(r => console.log(r)).done( window.location.href = "/web/games.html")
+
+        },
     }
 
 })
