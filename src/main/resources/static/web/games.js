@@ -4,6 +4,7 @@ var app = new Vue({
         message: 'PLAYERS SCORE BOARD',
         players: "",
         main: {},
+        games: {},
         alertDiv: false,
         logged: false,
     },
@@ -15,6 +16,25 @@ var app = new Vue({
     },
 
     methods: {
+
+        getGames: function () {
+            let url = '/api/games';
+            fetch(url, {
+                    method: "GET",
+                    credentials: "include",
+                })
+                .then((response) => response.json())
+                .then(function (data) {
+                    console.log(data)
+                    app.games = data;
+                    if (data.player) {
+                        app.logged = true;
+                    } else {
+                        app.logged = false;
+                    }
+
+                })
+        },
 
         dataServer: function () {
             fetch("/api/leaderBoard", {
@@ -31,7 +51,6 @@ var app = new Vue({
                     main = json;
                     app.main = json;
                     console.log(main);
-                    //                    app.addTable();
 
                 })
                 .catch(function (error) {
@@ -54,6 +73,7 @@ var app = new Vue({
                 })
                 .then(r => {
                     if (r.status == 200) {
+                        location.reload();
                         this.alertDiv = false;
                         this.logged = true;
                     } else {
@@ -87,24 +107,8 @@ var app = new Vue({
                 .catch(r => console.log(r))
 
         },
-        getGames: function () {
-           let url = '/api/games';
-           fetch(url, {
-                   method: "GET",
-                   credentials: "include",
-               })
-               .then((response) => response.json())
-               .then(function (data) {
-                   console.log(data)
-                   if (data.player) {
-                       app.logged = true;
-                   } else {
-                       app.logged = false;
-                   }
 
-               })
-    },
-        signUp: function(){
+        signUp: function () {
             let user = document.getElementById("inputEmail").value;
             let password = document.getElementById("inputPassword").value;
             fetch("/api/players", {
@@ -127,4 +131,49 @@ var app = new Vue({
                 })
                 .catch(r => console.log(r))
         },
-}})
+        returnToGame: function (id) {
+            console.log("hello")
+            window.location.href = "/web/game.html?gp=" + id
+        },
+        createGame: function () {
+
+            fetch("/api/games", {
+                    credentials: 'include',
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+
+                })
+                .then(r => r.json())
+                .then(r => {
+                    if (r.succes != null) {
+                        window.location.href = "/web/game.html?gp=" + r.succes
+                    }
+                })
+                .catch(r => console.log(r))
+
+        },
+        joinGame: function(gameId){
+            fetch("/api/game/" + gameId + "/players", {
+                    credentials: 'include',
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+
+                })
+            .then(r => r.json())
+                .then(r => {
+//                console.log(r)
+                    window.location.href = "/web/game.html?gp=" + r.gpId
+//                        window.location.href("/web/game.html?gp=" + r.gpId)
+                    
+                })
+                .catch(r => alert("error"))
+            
+        },
+    }
+})

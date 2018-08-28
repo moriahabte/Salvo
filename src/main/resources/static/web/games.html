@@ -22,15 +22,17 @@
             <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
 
             <button class="btn btn-lg btn-primary btn-block" @click="logIn">Log in</button>
-            
+
             <button class="btn btn-lg btn-primary btn-block" @click="signUp">Sign up</button>
 
         </div>
 
         <div v-if='logged'>
-            <div class="logged">logged in</div>
-            <button class="btn btn-lg btn-primary btn-block" @click="logOut">Log out</button> 
-            
+          
+           
+            <div class="logged">{{games.player.name}} is logged in</div>
+            <button class="btn btn-lg btn-primary btn-block" @click="logOut">Log out</button>
+
             <p>{{message}}</p>
 
             <table class="table table-hover">
@@ -53,14 +55,57 @@
                     </tr>
                 </tbody>
             </table>
+            
+            <button @click="createGame()">Create Game</button>
+
+            <div v-for="game in games.games" class="game">
+              
+              
+               <p>Game{{game.id}}</p>
+<!--                <p>Time:{{game.creationDate}}</p>-->
+              
+                
+                <div v-if="game.gamePlayers[0] != null">
+                
+                
+                
+                <p>Player1:{{game.gamePlayers[0].player.email}}
+                <button v-if="games.player.id == game.gamePlayers[0].player.id" @click="returnToGame(game.gamePlayers[0].gpId)">Return to game</button>
+                
+<!--                <button v-if="games.player.id != game.gamePlayers[0].player.id" @click="joinGame(game.id)">Join Game</button>-->
+                
+                </p>
+                
+                
+                </div>
+                
+                
+                <div v-if="game.gamePlayers[1] != null">
+                <p>Player2:{{game.gamePlayers[1].player.email}}
+                <button v-if="games.player.id == game.gamePlayers[1].player.id" @click="returnToGame(game.gamePlayers[1].gpId)">Return to game</button>
+                
+<!--                <button v-if="games.player.id != game.gamePlayers[1].player.id" @click="joinGame(game.id)">Join game</button>-->
+                </p>
+                
+                </div>
+                
+                
+
+          <button v-if="game.gamePlayers.length == 1 && game.gamePlayers[0].player.id != games.player.id" @click="joinGame(game.id)">Join Game</button>
+          
+<!--           <button v-if="games.player.id != game.gamePlayers[1].player.id" @click="joinGame(game.id)">Join Game</button>-->
+           
+            </div>
+              
+               
 
         </div>
 
-        
+
 
 
     </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <!--    <script src="https://code.jquery.com/jquery-3..1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="games.js"></script>
 </body>

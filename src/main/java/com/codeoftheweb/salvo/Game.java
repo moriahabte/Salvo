@@ -26,11 +26,10 @@ public class Game {
 
     public Game() {
         this.creationDate  = new Date();
-//        this.creationDate  = creationDate;
 
     }
 
-    public void addGamePlayers(GamePlayer gamePlayer) {
+    public void addGamePlayer(GamePlayer gamePlayer) {
         gamePlayer.setGame(this);
         gamePlayers.add(gamePlayer);
     }
