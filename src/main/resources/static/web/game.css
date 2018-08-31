@@ -1,7 +1,11 @@
-td, th{
+td, th, #div1{
     border: solid black;
-    height: 20px;
-    width: 20px;
+    height: 30px;
+    width: 30px;
+    text-align: center;
+    margin: 2px;
+    padding: 0;
+   
 }
 
 .ship{
@@ -20,4 +24,22 @@ td, th{
 
 #player1, #player2{
     background-color: green;
+}
+#drag1, #drag2, #ship2{
+    height: 25px;
+    width: 25px;
+    margin: 0;
+    object-position: center;
+}
+
+}
+table{
+        border-spacing: 0;
+}
+
+#drag1{
+    border: dashed red;
+}
+.nextShip{
+    display: inline-block;
 }

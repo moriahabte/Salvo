@@ -8,22 +8,42 @@
 </head>
 
 <body>
-    <div id="app">
-            <button class="btn btn-lg btn-primary btn-block" @click="logOut">Log out</button> 
-<button @click="goBack()">go back</button>
 
-        {{ message }}
+
+
+
+
+    <div id="app">
+        <button class="btn btn-lg btn-primary btn-block" @click="logOut">Log out</button>
+        <button @click="goBack()">go back</button> {{ message }}
 
         <p>{{player1}} (you)</p>
         <p>vs</p>
         <p>{{player2}}</p>
 
-
-
-
+        
+        
+         <div class="nextShip" >
+            <div  id="div1">
+                <img @click="turnShip1()" id="drag1" src="boat.jpg" draggable="true" ondragstart="drag(event)">
+            </div>
+            <div  id="div1">
+                <img id="drag2" src="boat.jpg">
+            </div>
+        </div>
+        
+        <div class="nextShip">
+           <div id="div1">
+                <img id="ship2" src="boat.jpg" draggable="true" ondragstart="drag(event)">
+           </div>
+            
+        </div>
 
         <!--<div id="grid"></div>-->
         <p>Your field(ship grid)</p>
+         
+          
+        
         <table id="salvoGrid">
             <tr>
                 <th></th>
@@ -32,9 +52,13 @@
 
             <tr v-for="n in 10">
                 <td :id="String.fromCharCode(64 + n )">{{String.fromCharCode(64 + n )}}</td>
-                <td v-for="x in 10" :id="String.fromCharCode(64 + n ) + x" class="empty">{{String.fromCharCode(64 + n )}}{{x}}</td>
+                <td v-for="x in 10" :id="String.fromCharCode(64 + n ) + x" class="target empty" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <!--                {{String.fromCharCode(64 + n )}}{{x}}-->
+                </td>
             </tr>
         </table>
+        
+          
 
         <p>Opponents field(salvo grid)</p>
         <p>salvo turn: {{salvoTurn}}</p>
@@ -49,13 +73,15 @@
                 <td v-for="x in 10" :id="'s'+String.fromCharCode(64 + n ) + x">{{String.fromCharCode(64 + n )}}{{x}}</td>
             </tr>
         </table>
-
+        <button @click="postShips()"> post ship</button>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!--
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous">
 
 
     </script>
+-->
     <script src="game.js"></script>
 </body>
 
