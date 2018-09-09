@@ -1,4 +1,4 @@
-td, th, #div1{
+td, th, .div1{
     border: solid black;
     height: 30px;
     width: 30px;
@@ -25,7 +25,7 @@ td, th, #div1{
 #player1, #player2{
     background-color: green;
 }
-#drag1, #drag2, #ship2{
+img{
     height: 25px;
     width: 25px;
     margin: 0;
@@ -37,7 +37,7 @@ table{
         border-spacing: 0;
 }
 
-#drag1{
+#drag1, #ship1{
     border: dashed red;
 }
 .nextShip{

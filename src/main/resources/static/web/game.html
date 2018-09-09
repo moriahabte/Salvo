@@ -21,29 +21,42 @@
         <p>vs</p>
         <p>{{player2}}</p>
 
-        
-        
-         <div class="nextShip" >
-            <div  id="div1">
-                <img @click="turnShip1()" id="drag1" src="boat.jpg" draggable="true" ondragstart="drag(event)">
+
+
+        <div class="nextShip">
+            <div class="div1">
+                <img class="boat" @click="turnShip1('drag1')" id="drag1" src="boat.jpg" draggable="true" ondragstart="drag(event)">
             </div>
-            <div  id="div1">
-                <img id="drag2" src="boat.jpg">
+            <div class="div1">
+                <img class="boat" id="drag2" src="boat.jpg">
             </div>
         </div>
-        
+
         <div class="nextShip">
-           <div id="div1">
-                <img id="ship2" src="boat.jpg" draggable="true" ondragstart="drag(event)">
-           </div>
-            
+            <div class="div1">
+                <img class="battleship" @click="turnShip1('ship1')" id="ship1" src="battleShip.jpg" draggable="true" ondragstart="drag(event)">
+            </div>
+
+            <div class="div1">
+                <img class="battleship" id="ship2" src="battleShip.jpg">
+            </div>
+            <div class="div1">
+                <img class="battleship" id="ship3" src="battleShip.jpg">
+            </div>
+            <div class="div1">
+                <img class="battleship" id="ship4" src="battleShip.jpg">
+            </div>
+            <div class="div1">
+                <img class="battleship" id="ship5" src="battleShip.jpg">
+            </div>
+
         </div>
 
         <!--<div id="grid"></div>-->
         <p>Your field(ship grid)</p>
-         
-          
-        
+
+<button @click="showPosition">show position</button>
+
         <table id="salvoGrid">
             <tr>
                 <th></th>
@@ -57,8 +70,8 @@
                 </td>
             </tr>
         </table>
-        
-          
+
+
 
         <p>Opponents field(salvo grid)</p>
         <p>salvo turn: {{salvoTurn}}</p>
