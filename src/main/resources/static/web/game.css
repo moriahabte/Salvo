@@ -43,3 +43,11 @@ table{
 .nextShip{
     display: inline-block;
 }
+
+.salvoLocation {
+    background-color: green;
+}
+
+.lastTurn {
+    background-color: orange;
+}

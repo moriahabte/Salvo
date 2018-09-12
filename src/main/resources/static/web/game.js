@@ -1,7 +1,7 @@
 var shipType = "";
 
 function drag(ev) {
-    shipType = ev.target.className;
+    shipType = ev.target.classList[0];
     ev.dataTransfer.setData("text", ev.target.id);
 }
 
@@ -38,6 +38,7 @@ function allowDrop(ev) {
             }
         }
         if (dropable) {
+            
             event.preventDefault();
         }
     }
@@ -65,11 +66,22 @@ function drop(ev) {
 
         if (app.rotateShip1 == false) {
             document.getElementById(app.letter + (app.integer + i)).appendChild(document.getElementById(elementIdName + (elementIdNumber + i)));
+            console.log(shipType)
         } else {
             document.getElementById(String.fromCharCode(app.letter.charCodeAt(0) + i) + (app.integer)).appendChild(document.getElementById(elementIdName + (elementIdNumber + i)));
         }
 
     }
+}
+
+function returnShipLocation(shipClass) {
+    var battleShipLocation = [];
+    var battleShipLength = document.getElementsByClassName(shipClass).length;
+
+    for (var i = 0; i < battleShipLength; i++) {
+        battleShipLocation.push(document.getElementsByClassName(shipClass)[i].parentElement.id)
+    }
+    return battleShipLocation
 }
 
 
@@ -105,7 +117,7 @@ var app = new Vue({
                 })
                 .then(function (myJson) {
 
-                    //                app.getShips();
+                    //app.getShips();
 
                     console.log(myJson);
                     data = myJson;
@@ -113,11 +125,31 @@ var app = new Vue({
 
                     console.log(app.id);
 
-
                     //make the player1 the the gameview gameplayer email
                     app.userIsPlayer1(data);
 
 
+                    
+                    console.log(data.ships.length);
+                    
+                    // loop through all ships and show
+                    for ( i = 0; i < data.ships.length; i++) {
+                        
+                        for (var j = 0; j < data.ships[i].location.length; j++) {
+                         
+                                var shiplocation = data.ships[i].location[j];
+                                var shipPart = document.getElementsByClassName(data.ships[i].type + "-" + j);
+                                document.getElementById(shiplocation).appendChild(shipPart[0]);
+                            }
+                    }
+                
+                for(i=0;i<data.salvoes.length;i++){
+                    for(j=0;j<data.salvoes[i].locations.length;j++){
+                        document.getElementById(data.salvoes[i].locations[j]).classList.add("lastTurn");
+                    }
+                }
+                
+                
                 });
 
         },
@@ -138,7 +170,6 @@ var app = new Vue({
 
         },
         ShowShipLocations: function () {
-            //            console.log(data.ships["0"].type);
             wang = data.ships;
             shipLocations = [];
             console.log(wang);
@@ -195,13 +226,7 @@ var app = new Vue({
 
             if (post) {
 
-                battleShipLocation = [];
-                battleShipLength = document.getElementsByClassName("battleship").length;
-                
-                for(i=0;i<battleShipLength;i++){
-                    
-                }
-                
+
 
                 fetch("/api/games/players/" + this.id + "/ships", {
                         credentials: 'include',
@@ -214,18 +239,31 @@ var app = new Vue({
                         body: JSON.stringify([
                             {
                                 shipType: "battleship",
-                                shipLocation: ["A1", "A6", "A8"]
+                                shipLocation: returnShipLocation("battleship"),
                },
                             {
-                                shipType: "oilship",
-                                shipLocation: ["B1", "B6", "B8", "B9"]
+                                shipType: "boat",
+                                shipLocation: returnShipLocation("boat"),
+               },
+                            {
+                                shipType: "destroyer",
+                                shipLocation: returnShipLocation("destroyer"),
+               },
+                            {
+                                shipType: "submarine",
+                                shipLocation: returnShipLocation("submarine"),
+               },
+                            {
+                                shipType: "aircraftcarrier",
+                                shipLocation: returnShipLocation("aircraftcarrier"),
                },
                                          ])
                     })
                     .then(r => r.json())
                     .then(r => {
                         console.log(r);
-                        location.reload();
+                        app.getGameView();
+                        //                        location.reload();
 
                     })
                     .catch(r => console.log(r))
@@ -304,6 +342,49 @@ var app = new Vue({
 
 
 
+        },
+        salvoShots: function (id) {
+            var element = document.getElementById(id);
+            if (!element.classList.contains("lastTurn")){
+                element.classList.toggle("salvoLocation");
+            }
+            if(document.getElementsByClassName("salvoLocation").length > 5){
+                document.getElementsByClassName("salvoLocation")[0].classList.toggle("salvoLocation");
+            }
+
+            
+        },
+        postSalvo: function() {
+            salvos = []
+            for(i=0;i<document.getElementsByClassName("salvoLocation").length;i++){
+                salvos.push(document.getElementsByClassName("salvoLocation")[i].id);
+//                            .split("s")[1]
+            }
+            console.log(salvos);
+            
+            fetch("/api/games/players/" + this.id + "/salvos" , {
+                        credentials: 'include',
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+
+                        body: JSON.stringify(
+                            {
+                                salvoLocations: salvos ,
+               },
+                          
+                                         )
+                    })
+                    .then(r => r.json())
+                    .then(r => {
+                        console.log(r);
+                        app.getGameView();
+                        //                        location.reload();
+
+                    })
+                    .catch(r => console.log(r))
         },
 
 
