@@ -72,22 +72,23 @@ public class SalvoApplication  {
             gamePlayerRepository.save(game1Chloe);
             gamePlayerRepository.save(game2kim);
             gamePlayerRepository.save(game2david);
+
 //
-//            List<String> location1 = Arrays.asList("H1","H2","H3");
-//            List<String> location2 = Arrays.asList("B1","B2");
-//            List<String> location3 = Arrays.asList("F1","F2","F3");
-//            List<String> location4 = Arrays.asList("E1","E2","E3");
-//
-//            List<String> location5 = Arrays.asList("A1","B1","C1");
-//            List<String> location6 = Arrays.asList("B3","C3");
-//            List<String> location7 = Arrays.asList("F5","G5","H5");
-//            List<String> location8 = Arrays.asList("H10","I10");
-//
-//            Ship ship1 = new Ship("Carrier", location1, game1jack);
-//            Ship ship3 = new Ship("Battleship",location2, game1jack);
-//            Ship ship2 = new Ship("Submarine", location3, game1jack);
-//            Ship ship4 = new Ship("Destroyer", location4,game1jack);
-//            Ship ship5 = new Ship("Patrol Boat", location5, game1jack);
+            List<String> location1 = Arrays.asList("H1","H2","H3");
+            List<String> location2 = Arrays.asList("B1","B2");
+            List<String> location3 = Arrays.asList("F1","F2","F3");
+            List<String> location4 = Arrays.asList("E1","E2","E3");
+
+            List<String> location5 = Arrays.asList("A1","B1","C1");
+            List<String> location6 = Arrays.asList("B3","C3");
+            List<String> location7 = Arrays.asList("F5","G5","H5");
+            List<String> location8 = Arrays.asList("H10","I10");
+
+            Ship ship1 = new Ship("Carrier", location1, game1jack);
+            Ship ship3 = new Ship("Battleship",location2, game1jack);
+            Ship ship2 = new Ship("Submarine", location3, game1jack);
+            Ship ship4 = new Ship("Destroyer", location4,game1jack);
+            Ship ship5 = new Ship("Patrol Boat", location5, game1jack);
 //
 ////            Ship ship1 = new Ship("Carrier");
 ////            Ship ship3 = new Ship("Battleship");

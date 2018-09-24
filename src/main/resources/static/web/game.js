@@ -1,3 +1,46 @@
+var hits = [
+
+    {
+        "turn": 1,
+        "newHits": 5,
+        "sinks": ["battleship"],
+    }, 
+    {
+        "turn": 2,
+        "newHits": 3,
+        "sinks": ["battleship", "submarine"],
+    }, 
+    {
+        "turn": 3,
+        "newHits": 5,
+        "sinks": ["battleship", "submarine", "boat"],
+    }, 
+]
+var opponentHits = [
+
+    {
+        "turn": 1,
+        "newHits": 5,
+        "sinks": ["battleship"],
+    }, 
+    {
+        "turn": 3,
+        "newHits": 3,
+        "sinks": ["battleship", "submarine"],
+    }, 
+    {
+        "turn": 3,
+        "newHits": 5,
+        "sinks": ["battleship", "submarine", "boat"],
+    }, 
+]
+
+    
+    
+console.log(hits[hits.length-1].turn);
+console.log(opponentHits);
+hits[hits.length-1].turn
+
 var shipType = "";
 
 function drag(ev) {
@@ -94,7 +137,7 @@ var app = new Vue({
         shipLocation: [],
         player1: 0,
         player2: 0,
-        salvoTurn: 0,
+        salvoTurn: hits[hits.length-1].turn,
         salvoTurn2: 0,
         rotateShip1: false,
         letter: 0,
@@ -128,28 +171,24 @@ var app = new Vue({
                     //make the player1 the the gameview gameplayer email
                     app.userIsPlayer1(data);
 
-
-                    
                     console.log(data.ships.length);
                     
                     // loop through all ships and show
                     for ( i = 0; i < data.ships.length; i++) {
                         
-                        for (var j = 0; j < data.ships[i].location.length; j++) {
+                        for ( j = 0; j < data.ships[i].location.length; j++) {
                          
-                                var shiplocation = data.ships[i].location[j];
-                                var shipPart = document.getElementsByClassName(data.ships[i].type + "-" + j);
+                                shiplocation = data.ships[i].location[j];
+                                shipPart = document.getElementsByClassName(data.ships[i].type + "-" + j);
                                 document.getElementById(shiplocation).appendChild(shipPart[0]);
                             }
                     }
-                
-                for(i=0;i<data.salvoes.length;i++){
-                    for(j=0;j<data.salvoes[i].locations.length;j++){
-                        document.getElementById(data.salvoes[i].locations[j]).classList.add("lastTurn");
+                    //loop through salvoes to show
+                    for(i=0;i<data.salvoes.length;i++){
+                        for(j=0;j<data.salvoes[i].locations.length;j++){
+                            document.getElementById("s" + data.salvoes[i].locations[j]).classList.add("lastTurn");
+                        }
                     }
-                }
-                
-                
                 });
 
         },
@@ -356,8 +395,9 @@ var app = new Vue({
         },
         postSalvo: function() {
             salvos = []
+            if(document.getElementsByClassName("salvoLocation").length == 5){
             for(i=0;i<document.getElementsByClassName("salvoLocation").length;i++){
-                salvos.push(document.getElementsByClassName("salvoLocation")[i].id);
+                salvos.push(document.getElementsByClassName("salvoLocation")[i].id.split("s")[1]);
 //                            .split("s")[1]
             }
             console.log(salvos);
@@ -385,6 +425,7 @@ var app = new Vue({
 
                     })
                     .catch(r => console.log(r))
+        }
         },
 
 

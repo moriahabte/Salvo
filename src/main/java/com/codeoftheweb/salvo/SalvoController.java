@@ -67,7 +67,7 @@ public class SalvoController {
         Map<String, Object> gameView = new LinkedHashMap<String, Object>();
 
         GamePlayer gamePlayer = gamePlayerRepository.findOne(gamePlayerId);
-//        GamePlayer otherPlayer = getOtherPlayer(gamePlayer);
+        GamePlayer otherPlayer = getOtherPlayer(gamePlayer);
 
         gameView.put("game",makeGameDTO(gamePlayer.getGame()));
 
@@ -75,19 +75,27 @@ public class SalvoController {
                 .stream()
                 .map(ship -> makeShipDTO(ship))
                 .collect(Collectors.toList()));
-//
-//
+
         gameView.put("salvoes", gamePlayer.getSalvoes()
                 .stream()
                 .map(salvo -> makeSalvoDTO(salvo))
                 .collect(Collectors.toList()));
-//
-//        if(gamePlayer.getGame().getGamePlayers().size() == 2) {
-//            gameView.put("opponentSalvoes", otherPlayer.getSalvoes()
-//                    .stream()
-//                    .map(salvo -> makeSalvoDTO(salvo))
-//                    .collect(Collectors.toList()));
-//        }
+
+        if(gamePlayer.getGame().getGamePlayers().size() == 2) {
+            gameView.put("opponentSalvoes", otherPlayer.getSalvoes()
+                    .stream()
+                    .map(salvo -> makeSalvoDTO(salvo))
+                    .collect(Collectors.toList()));
+
+
+            gameView.put("hits", getHits(gamePlayer));
+
+        }
+
+        ArrayList<String> salvoLocations = new ArrayList<String>();
+        gamePlayer.getSalvoes()
+                .stream()
+                .map(salvo -> salvoLocations.addAll(salvo.getSalvoLocations()));
 
 
             if(gamePlayer.getPlayer().getUser() == authentication.getName()){
@@ -98,6 +106,8 @@ public class SalvoController {
                 return makeMap("error", "Not allowed");
             }
     }
+
+
 
 
     @RequestMapping(path = "/players", method = RequestMethod.POST)
@@ -355,9 +365,52 @@ public class SalvoController {
             return scoreDTO;
         }
 
+        private List<String> getOpponentshipLocations(GamePlayer gamePlayer) {
+        GamePlayer otherPlayer = getOtherPlayer(gamePlayer);
+            List shipLocationsList = new ArrayList();
+            for (Ship ship : otherPlayer.getShips()) {
+                for ( String shiplocation : ship.getShipLocation()){
+                    shipLocationsList.add(shiplocation);
+                }
+            }
 
+            return shipLocationsList;
 
+        }
+
+        private List<String> salvoLocations(GamePlayer gamePlayer) {
+            List salvoLocationsList = new ArrayList();
+            for (Salvo salvo : gamePlayer.getSalvoes()) {
+                for ( String salvoLocation : salvo.getSalvoLocations()){
+                    salvoLocationsList.add(salvoLocation);
+                }
+            }
+
+            return salvoLocationsList;
+
+        }
+
+        private List <String> getHits(GamePlayer gamePlayer){
+          List<String> salvoLocations = salvoLocations(gamePlayer);
+          List<String> opponentShipLocations = getOpponentshipLocations(gamePlayer);
+          List<String> hits = new ArrayList<>();
+
+          for(String salvoLocation : salvoLocations){
+              for(String opponentShipLocation : opponentShipLocations){
+                  if(salvoLocation == opponentShipLocation){
+                      hits.add(salvoLocation);
+                  }
+              }
+          }
+            return hits;
+        }
+
+        private List<String> getSinks (GamePlayer gamePlayer){
+            List<String> sinks = new ArrayList<>();
+        return sinks;
+        }
 
 
     }
+
 

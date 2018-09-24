@@ -5,7 +5,8 @@ td, th, .div1{
     text-align: center;
     margin: 2px;
     padding: 0;
-   
+    border-color: white;
+
 }
 
 .ship{
@@ -50,4 +51,9 @@ table{
 
 .lastTurn {
     background-color: orange;
+}
+body{
+    background-image: url("battleship-wallpapers-29415-4028436.jpg");
+    background-size: cover;
+    color: white;
 }
