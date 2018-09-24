@@ -119,7 +119,7 @@
         
         <p>salvo turn: {{salvoTurn}}</p>
         <button @click="postSalvo()"> post salvo</button>
-        <table>
+        <table v-if="shipsCreated">
             <tr>
                 <th></th>
                 <th v-for="n in 10" :id="'s'+n">{{n}}</th>

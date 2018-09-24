@@ -143,6 +143,7 @@ var app = new Vue({
         letter: 0,
         integer: 0,
         dropable: true,
+        shipsCreated: false,
     },
     created: function () {
         //        this.postShips();
@@ -189,6 +190,12 @@ var app = new Vue({
                             document.getElementById("s" + data.salvoes[i].locations[j]).classList.add("lastTurn");
                         }
                     }
+                
+                if(data.ships.length == 5){
+                    app.shipsCreated = true;
+                }
+                
+                
                 });
 
         },
@@ -301,6 +308,8 @@ var app = new Vue({
                     .then(r => r.json())
                     .then(r => {
                         console.log(r);
+                   
+                       
                         app.getGameView();
                         //                        location.reload();
 

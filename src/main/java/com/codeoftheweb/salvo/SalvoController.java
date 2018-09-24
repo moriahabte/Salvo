@@ -89,6 +89,8 @@ public class SalvoController {
 
 
             gameView.put("hits", getHits(gamePlayer));
+            gameView.put("sunken", getSunkenShips(gamePlayer));
+            gameView.put("ships afloat", otherPlayer.getShips().size() - getSunkenShips(gamePlayer).size());
 
         }
 
@@ -405,9 +407,19 @@ public class SalvoController {
             return hits;
         }
 
-        private List<String> getSinks (GamePlayer gamePlayer){
-            List<String> sinks = new ArrayList<>();
-        return sinks;
+        private List<String> getSunkenShips (GamePlayer gamePlayer){
+            List<String> salvoLocations = salvoLocations(gamePlayer);
+            List<String> sunken = new ArrayList<>();
+
+            GamePlayer otherPlayer = getOtherPlayer(gamePlayer);
+
+            for (Ship ship : otherPlayer.getShips()) {
+                if(salvoLocations.containsAll(ship.getShipLocation())){
+                    sunken.add(ship.getShipType());
+                }
+            }
+
+        return sunken;
         }
 
 
