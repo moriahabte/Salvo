@@ -93,11 +93,16 @@
             </div>
 
         </div>
+                <p>salvo turn: {{salvoTurn}}</p>
 
-        <!--<div id="grid"></div>-->
+<p class="waiting" v-if="salvoCreated == true"> waiting for other player</p>
+       
+<div class="twoGrids" v-if="salvoCreated == false">
+       
+        <div class="grid" v-if="!shipsCreated" >
         <p>Your field(ship grid)</p>
 
-        <button @click="showPosition">show position</button>
+<!--        <button @click="showPosition">show position</button>-->
 
         <table id="salvoGrid">
             <tr>
@@ -114,12 +119,14 @@
         </table>
 <button @click="postShips()"> post ship</button>
 
+</div>
 
+
+<div class="salvoGrid" v-if="shipsCreated">
+       
         <p>Opponents field(salvo grid)</p>
         
-        <p>salvo turn: {{salvoTurn}}</p>
-        <button @click="postSalvo()"> post salvo</button>
-        <table v-if="shipsCreated">
+        <table >
             <tr>
                 <th></th>
                 <th v-for="n in 10" :id="'s'+n">{{n}}</th>
@@ -130,6 +137,11 @@
                 <td @click="salvoShots('s'+String.fromCharCode(64 + n ) + x)" v-for="x in 10" :id="'s'+String.fromCharCode(64 + n ) + x">{{String.fromCharCode(64 + n )}}{{x}}</td>
             </tr>
         </table>
+            <button @click="postSalvo()"> post salvo</button>
+
+    </div>
+      </div>
+       
         
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>

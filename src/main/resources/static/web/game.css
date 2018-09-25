@@ -44,6 +44,11 @@ table{
 .nextShip{
     display: inline-block;
 }
+.twoGrids{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
 
 .salvoLocation {
     background-color: green;
@@ -56,4 +61,10 @@ body{
     background-image: url("battleship-wallpapers-29415-4028436.jpg");
     background-size: cover;
     color: white;
+}
+.waiting{
+    border: solid red;
+}
+.hits{
+    background-image: linear-gradient(to bottom right,  transparent calc(50% - 1px), red, transparent calc(50% + 1px)); 
 }

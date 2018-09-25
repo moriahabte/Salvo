@@ -4,17 +4,17 @@ var hits = [
         "turn": 1,
         "newHits": 5,
         "sinks": ["battleship"],
-    }, 
+    },
     {
         "turn": 2,
         "newHits": 3,
         "sinks": ["battleship", "submarine"],
-    }, 
+    },
     {
         "turn": 3,
         "newHits": 5,
         "sinks": ["battleship", "submarine", "boat"],
-    }, 
+    },
 ]
 var opponentHits = [
 
@@ -22,24 +22,24 @@ var opponentHits = [
         "turn": 1,
         "newHits": 5,
         "sinks": ["battleship"],
-    }, 
+    },
     {
         "turn": 3,
         "newHits": 3,
         "sinks": ["battleship", "submarine"],
-    }, 
+    },
     {
         "turn": 3,
         "newHits": 5,
         "sinks": ["battleship", "submarine", "boat"],
-    }, 
+    },
 ]
 
-    
-    
-console.log(hits[hits.length-1].turn);
+
+
+console.log(hits[hits.length - 1].turn);
 console.log(opponentHits);
-hits[hits.length-1].turn
+hits[hits.length - 1].turn
 
 var shipType = "";
 
@@ -81,7 +81,7 @@ function allowDrop(ev) {
             }
         }
         if (dropable) {
-            
+
             event.preventDefault();
         }
     }
@@ -137,13 +137,14 @@ var app = new Vue({
         shipLocation: [],
         player1: 0,
         player2: 0,
-        salvoTurn: hits[hits.length-1].turn,
+        salvoTurn: hits[hits.length - 1].turn,
         salvoTurn2: 0,
         rotateShip1: false,
         letter: 0,
         integer: 0,
         dropable: true,
         shipsCreated: false,
+        salvoCreated: false,
     },
     created: function () {
         //        this.postShips();
@@ -173,29 +174,39 @@ var app = new Vue({
                     app.userIsPlayer1(data);
 
                     console.log(data.ships.length);
-                    
+
                     // loop through all ships and show
-                    for ( i = 0; i < data.ships.length; i++) {
-                        
-                        for ( j = 0; j < data.ships[i].location.length; j++) {
-                         
-                                shiplocation = data.ships[i].location[j];
-                                shipPart = document.getElementsByClassName(data.ships[i].type + "-" + j);
-                                document.getElementById(shiplocation).appendChild(shipPart[0]);
-                            }
+                    for (i = 0; i < data.ships.length; i++) {
+
+                        for (j = 0; j < data.ships[i].location.length; j++) {
+
+                            shiplocation = data.ships[i].location[j];
+                            shipPart = document.getElementsByClassName(data.ships[i].type + "-" + j);
+                            document.getElementById(shiplocation).appendChild(shipPart[0]);
+                        }
                     }
+
+
+                    console.log(data.ships.length);
+                    if (data.ships.length == 5) {
+                        app.shipsCreated = true;
+                    }
+
                     //loop through salvoes to show
-                    for(i=0;i<data.salvoes.length;i++){
-                        for(j=0;j<data.salvoes[i].locations.length;j++){
-                            document.getElementById("s" + data.salvoes[i].locations[j]).classList.add("lastTurn");
+                    if (app.shipsCreated) {
+                        for (i = 0; i < data.salvoes.length; i++) {
+                            for (j = 0; j < data.salvoes[i].locations.length; j++) {
+                                console.log(document.getElementById("s" + data.salvoes[i].locations[j]).classList);
+                                document.getElementById("s" + data.salvoes[i].locations[j]).classList.add("lastTurn");
+                            }
                         }
                     }
                 
-                if(data.ships.length == 5){
-                    app.shipsCreated = true;
-                }
-                
-                
+                //loop through hits
+                data.hits
+                for (i = 0; i < data.hits.length; i++) {
+                            document.getElementById(data.hits[i]).classList.add("hits");
+                        }
                 });
 
         },
@@ -271,6 +282,7 @@ var app = new Vue({
             }
 
             if (post) {
+            app.shipsCreated = true;
 
 
 
@@ -308,8 +320,8 @@ var app = new Vue({
                     .then(r => r.json())
                     .then(r => {
                         console.log(r);
-                   
-                       
+
+
                         app.getGameView();
                         //                        location.reload();
 
@@ -393,25 +405,26 @@ var app = new Vue({
         },
         salvoShots: function (id) {
             var element = document.getElementById(id);
-            if (!element.classList.contains("lastTurn")){
+            if (!(element.classList.contains("lastTurn"))) {
                 element.classList.toggle("salvoLocation");
             }
-            if(document.getElementsByClassName("salvoLocation").length > 5){
+            if (document.getElementsByClassName("salvoLocation").length > 5) {
                 document.getElementsByClassName("salvoLocation")[0].classList.toggle("salvoLocation");
             }
 
-            
+
         },
-        postSalvo: function() {
+        postSalvo: function () {
+            app.salvoCreated = true;
             salvos = []
-            if(document.getElementsByClassName("salvoLocation").length == 5){
-            for(i=0;i<document.getElementsByClassName("salvoLocation").length;i++){
-                salvos.push(document.getElementsByClassName("salvoLocation")[i].id.split("s")[1]);
-//                            .split("s")[1]
-            }
-            console.log(salvos);
-            
-            fetch("/api/games/players/" + this.id + "/salvos" , {
+            if (document.getElementsByClassName("salvoLocation").length == 5) {
+                for (i = 0; i < document.getElementsByClassName("salvoLocation").length; i++) {
+                    salvos.push(document.getElementsByClassName("salvoLocation")[i].id.split("s")[1]);
+                    //                            .split("s")[1]
+                }
+                console.log(salvos);
+
+                fetch("/api/games/players/" + this.id + "/salvos", {
                         credentials: 'include',
                         method: 'POST',
                         headers: {
@@ -419,22 +432,28 @@ var app = new Vue({
                             'Content-Type': 'application/json'
                         },
 
-                        body: JSON.stringify(
-                            {
-                                salvoLocations: salvos ,
-               },
-                          
-                                         )
+                        body: JSON.stringify({
+                                salvoLocations: salvos,
+                            },
+
+                        )
                     })
                     .then(r => r.json())
                     .then(r => {
                         console.log(r);
                         app.getGameView();
-                        //                        location.reload();
 
                     })
                     .catch(r => console.log(r))
-        }
+                
+             oldLength = Array.from(app.gameView.opponentSalvoes).length;
+                
+            setTimeout(function() {if(oldLength < (app.gameView.opponentSalvoes.length)){
+                                      app.salvoCreated = false;
+                                      }}, 5000);            
+            
+            }
+           
         },
 
 
