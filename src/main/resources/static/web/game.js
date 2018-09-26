@@ -1,46 +1,3 @@
-var hits = [
-
-    {
-        "turn": 1,
-        "newHits": 5,
-        "sinks": ["battleship"],
-    },
-    {
-        "turn": 2,
-        "newHits": 3,
-        "sinks": ["battleship", "submarine"],
-    },
-    {
-        "turn": 3,
-        "newHits": 5,
-        "sinks": ["battleship", "submarine", "boat"],
-    },
-]
-var opponentHits = [
-
-    {
-        "turn": 1,
-        "newHits": 5,
-        "sinks": ["battleship"],
-    },
-    {
-        "turn": 3,
-        "newHits": 3,
-        "sinks": ["battleship", "submarine"],
-    },
-    {
-        "turn": 3,
-        "newHits": 5,
-        "sinks": ["battleship", "submarine", "boat"],
-    },
-]
-
-
-
-console.log(hits[hits.length - 1].turn);
-console.log(opponentHits);
-hits[hits.length - 1].turn
-
 var shipType = "";
 
 function drag(ev) {
@@ -127,6 +84,7 @@ function returnShipLocation(shipClass) {
     return battleShipLocation
 }
 
+var createdSalvo = false;
 
 var app = new Vue({
     el: '#app',
@@ -137,7 +95,7 @@ var app = new Vue({
         shipLocation: [],
         player1: 0,
         player2: 0,
-        salvoTurn: hits[hits.length - 1].turn,
+        //        salvoTurn: hits[hits.length - 1].turn,
         salvoTurn2: 0,
         rotateShip1: false,
         letter: 0,
@@ -166,47 +124,49 @@ var app = new Vue({
 
                     console.log(myJson);
                     data = myJson;
-                    this.gameView = data;
-
-                    console.log(app.id);
+                    app.gameView = data;
 
                     //make the player1 the the gameview gameplayer email
                     app.userIsPlayer1(data);
 
-                    console.log(data.ships.length);
 
                     // loop through all ships and show
-                    for (i = 0; i < data.ships.length; i++) {
+                    if (data.ships.length > 0) {
+                        for (i = 0; i < data.ships.length; i++) {
 
-                        for (j = 0; j < data.ships[i].location.length; j++) {
+                            for (j = 0; j < data.ships[i].location.length; j++) {
 
-                            shiplocation = data.ships[i].location[j];
-                            shipPart = document.getElementsByClassName(data.ships[i].type + "-" + j);
-                            document.getElementById(shiplocation).appendChild(shipPart[0]);
+                                shiplocation = data.ships[i].location[j];
+                                shipPart = document.getElementsByClassName(data.ships[i].type + "-" + j);
+                                if (document.getElementById(shiplocation)) {
+                                    document.getElementById(shiplocation).appendChild(shipPart[0]);
+                                }
+                            }
                         }
+
                     }
 
 
-                    console.log(data.ships.length);
+
                     if (data.ships.length == 5) {
                         app.shipsCreated = true;
                     }
 
                     //loop through salvoes to show
-                    if (app.shipsCreated) {
+                    if (app.salvoCreated == false) {
                         for (i = 0; i < data.salvoes.length; i++) {
                             for (j = 0; j < data.salvoes[i].locations.length; j++) {
-                                console.log(document.getElementById("s" + data.salvoes[i].locations[j]).classList);
-                                document.getElementById("s" + data.salvoes[i].locations[j]).classList.add("lastTurn");
+                                document.getElementById("s" + data.salvoes[i].locations[j]).setAttribute("class", "lastTurn");
                             }
                         }
                     }
-                
-                //loop through hits
-                data.hits
-                for (i = 0; i < data.hits.length; i++) {
+
+                    //loop through hits
+                    if (app.salvoCreated == false) {
+                        for (i = 0; i < data.hits.length; i++) {
                             document.getElementById(data.hits[i]).classList.add("hits");
                         }
+                    }
                 });
 
         },
@@ -269,7 +229,7 @@ var app = new Vue({
 
         },
         goBack: function () {
-            history.back();
+            window.location.href = "/web/games.html"
         },
         postShips: function () {
             post = true;
@@ -282,7 +242,7 @@ var app = new Vue({
             }
 
             if (post) {
-            app.shipsCreated = true;
+                app.shipsCreated = true;
 
 
 
@@ -415,13 +375,18 @@ var app = new Vue({
 
         },
         postSalvo: function () {
-            app.salvoCreated = true;
+
+            oldLength = Array.from(app.gameView.opponentSalvoes).length;
+            console.log(oldLength);
             salvos = []
             if (document.getElementsByClassName("salvoLocation").length == 5) {
+
+                app.salvoCreated = true;
+
                 for (i = 0; i < document.getElementsByClassName("salvoLocation").length; i++) {
                     salvos.push(document.getElementsByClassName("salvoLocation")[i].id.split("s")[1]);
-                    //                            .split("s")[1]
                 }
+
                 console.log(salvos);
 
                 fetch("/api/games/players/" + this.id + "/salvos", {
@@ -440,23 +405,49 @@ var app = new Vue({
                     })
                     .then(r => r.json())
                     .then(r => {
-                        console.log(r);
-                        app.getGameView();
+                            console.log(r);
+
+
+                            app.getGameView();
+                            console.log(oldLength);
+
+                            setInterval(function () {
+                                app.getGameView();
+                                console.log("hey");
+                                console.log(oldLength);
+                                console.log(app.gameView.opponentSalvoes.length);
+
+//                                    if (oldLength < app.gameView.opponentSalvoes.length) {
+//                                        app.salvoCreated = false;
+//                                        location.onload();
+//                                    } else {
+//                                        app.salvoCreated = true;
+//                                    }
+                                
+                                
+                            }, 5000);
+
+
 
                     })
-                    .catch(r => console.log(r))
-                
-             oldLength = Array.from(app.gameView.opponentSalvoes).length;
-                
-            setTimeout(function() {if(oldLength < (app.gameView.opponentSalvoes.length)){
-                                      app.salvoCreated = false;
-                                      }}, 5000);            
-            
-            }
-           
-        },
+            .catch(r => console.log(r))
 
 
-    }
+
+            //                setInterval(function () {
+            //                    app.getGameView();
+            //
+            //                    if (oldLength < (app.gameView.opponentSalvoes.length)) {
+            //                        app.salvoCreated = false;
+            //                        location.onload();
+            //                    }
+            //                }, 5000);
+
+        }
+
+    },
+
+
+}
 
 })

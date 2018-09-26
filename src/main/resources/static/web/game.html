@@ -93,13 +93,16 @@
             </div>
 
         </div>
-                <p>salvo turn: {{salvoTurn}}</p>
+<!--                <p>salvo turn: {{salvoTurn}}</p>-->
 
 <p class="waiting" v-if="salvoCreated == true"> waiting for other player</p>
        
 <div class="twoGrids" v-if="salvoCreated == false">
        
-        <div class="grid" v-if="!shipsCreated" >
+        <div class="grid" >
+<!--        v-if="!shipsCreated" >-->
+        
+        
         <p>Your field(ship grid)</p>
 
 <!--        <button @click="showPosition">show position</button>-->
@@ -122,7 +125,8 @@
 </div>
 
 
-<div class="salvoGrid" v-if="shipsCreated">
+<div class="salvoGrid" >
+<!--      v-if="shipsCreated">-->
        
         <p>Opponents field(salvo grid)</p>
         
