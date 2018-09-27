@@ -107,11 +107,13 @@ var app = new Vue({
     created: function () {
         //        this.postShips();
         this.getGameView();
+        
 
     },
     methods: {
         getGameView: function () {
-            //get view of one  gamePlayer by id
+        
+        //get view of one  gamePlayer by id
             fetch("/api/game_view/" + this.id, {
                     method: "GET",
                     credentials: "include",
@@ -120,14 +122,17 @@ var app = new Vue({
                 })
                 .then(function (myJson) {
 
-                    //app.getShips();
-
+                    
+                
                     console.log(myJson);
+                    
                     data = myJson;
                     app.gameView = data;
+                    console.log(app.gameview.opponentTurn);
 
                     //make the player1 the the gameview gameplayer email
                     app.userIsPlayer1(data);
+                    
 
 
                     // loop through all ships and show
@@ -376,8 +381,8 @@ var app = new Vue({
         },
         postSalvo: function () {
 
-            oldLength = Array.from(app.gameView.opponentSalvoes).length;
-            console.log(oldLength);
+            oldTurn = app.gameView.opponentTurn;
+            console.log(oldTurn);
             salvos = []
             if (document.getElementsByClassName("salvoLocation").length == 5) {
 
@@ -409,20 +414,21 @@ var app = new Vue({
 
 
                             app.getGameView();
-                            console.log(oldLength);
+                            console.log(oldTurn);
 
                             setInterval(function () {
                                 app.getGameView();
                                 console.log("hey");
-                                console.log(oldLength);
-                                console.log(app.gameView.opponentSalvoes.length);
+                                console.log(oldTurn);
+                                console.log(app.gameView.opponentTurn);
 
-//                                    if (oldLength < app.gameView.opponentSalvoes.length) {
-//                                        app.salvoCreated = false;
-//                                        location.onload();
-//                                    } else {
-//                                        app.salvoCreated = true;
-//                                    }
+                                    if (oldTurn < app.gameView.opponentTurn) {
+                                        console.log("jawohl");
+                                        app.salvoCreated = false;
+                                        
+                                    } else {
+                                        app.salvoCreated = true;
+                                    }
                                 
                                 
                             }, 5000);
@@ -432,20 +438,14 @@ var app = new Vue({
                     })
             .catch(r => console.log(r))
 
-
-
-            //                setInterval(function () {
-            //                    app.getGameView();
-            //
-            //                    if (oldLength < (app.gameView.opponentSalvoes.length)) {
-            //                        app.salvoCreated = false;
-            //                        location.onload();
-            //                    }
-            //                }, 5000);
-
         }
 
     },
+        gameState: function () {
+            if(app.salvoCreated == true){
+                
+            }
+        }
 
 
 }

@@ -87,10 +87,13 @@ public class SalvoController {
                     .map(salvo -> makeSalvoDTO(salvo))
                     .collect(Collectors.toList()));
 
-
+            gameView.put("opponentTurn", getTurn(otherPlayer));
+            gameView.put("userTurn", getTurn(gamePlayer));
             gameView.put("hits", getHits(gamePlayer));
             gameView.put("sunken", getSunkenShips(gamePlayer));
             gameView.put("ships afloat", otherPlayer.getShips().size() - getSunkenShips(gamePlayer).size());
+
+            gameView.put("MYtURN", true );
 
         }
 
